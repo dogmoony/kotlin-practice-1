@@ -8,14 +8,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kpi.kotlinpractice1_kushnirkv.ui.theme.KotlinPractice1KushnirKVTheme
@@ -27,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KotlinPractice1KushnirKVTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    GreetingScreen(
+                    FuelTask1Screen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -37,50 +43,56 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GreetingScreen(modifier: Modifier = Modifier) {
-    var name by remember { mutableStateOf("") }
-    var greetingText by remember { mutableStateOf("") }
+fun FuelTask1Screen(modifier: Modifier = Modifier) {
+    var hInput by remember { mutableStateOf("") }
+    var resultText by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
-        Text("Enter your name: ")
+        Text("Завдання 1: склад палива",
+            style = MaterialTheme.typography.titleLarge)
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Name") }
+        Text(text = "H\u209A (Водень на робочу масу), %")
+
+        androidx.compose.material3.TextField(
+            value = hInput,
+            onValueChange = { hInput = it },
+            label = { androidx.compose.material3.Text(text = "H\u209A") },
+            singleLine = true,
+            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            greetingText = if (name.isNotBlank()) {
-                "Hi, $name!"
-            } else {
-                "Please, enter your name."
-            }
+            //тут будуть обчислення
+            resultText = "Результат"
         }) {
-            Text("Greet!")
+            Text("Розрахувати")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        if (greetingText.isNotEmpty()) {
-            Text(greetingText)
-        }
+        Text(text = resultText)
     }
+}
+
+@Composable
+fun KeyboardOpeitons(keyboardType: KeyboardType) {
+    TODO("Not yet implemented")
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun FuelTask1Preview() {
     KotlinPractice1KushnirKVTheme {
-        GreetingScreen(modifier = Modifier)
+        FuelTask1Screen(modifier = Modifier)
     }
 }
